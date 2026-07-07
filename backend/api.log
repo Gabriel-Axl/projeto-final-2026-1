@@ -1,0 +1,30 @@
+2026-07-06 23:39:32,050 AFC is enabled with max remote calls: 10.
+2026-07-06 23:39:33,361 HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite-preview:generateContent "HTTP/1.1 200 OK"
+2026-07-06 23:39:33,364 AFC remote call 1 is done.
+2026-07-06 23:39:33,365 Warning: there are non-text parts in the response: ['thought_signature'], returning concatenated text result from text parts. Check the full candidates.content.parts accessor to get the full model response.
+2026-07-06 23:39:33,365 Probabilidade: 0.48
+2026-07-06 23:40:17,739 AFC is enabled with max remote calls: 10.
+2026-07-06 23:40:19,524 HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite-preview:generateContent "HTTP/1.1 200 OK"
+2026-07-06 23:40:19,525 AFC remote call 1 is done.
+2026-07-06 23:40:19,525 Warning: there are non-text parts in the response: ['thought_signature'], returning concatenated text result from text parts. Check the full candidates.content.parts accessor to get the full model response.
+2026-07-06 23:40:19,525 Probabilidade: 0.48
+2026-07-06 23:46:12,492 AFC is enabled with max remote calls: 10.
+2026-07-06 23:46:13,893 HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite-preview:generateContent "HTTP/1.1 200 OK"
+2026-07-06 23:46:13,896 AFC remote call 1 is done.
+2026-07-06 23:46:13,896 Warning: there are non-text parts in the response: ['thought_signature'], returning concatenated text result from text parts. Check the full candidates.content.parts accessor to get the full model response.
+2026-07-06 23:46:13,896 Probabilidade: 0.495
+2026-07-07 00:27:47,045 AFC is enabled with max remote calls: 10.
+2026-07-07 00:27:49,554 HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite-preview:generateContent "HTTP/1.1 200 OK"
+2026-07-07 00:27:49,556 AFC remote call 1 is done.
+2026-07-07 00:27:49,556 Warning: there are non-text parts in the response: ['thought_signature'], returning concatenated text result from text parts. Check the full candidates.content.parts accessor to get the full model response.
+2026-07-07 00:27:49,556 Probabilidade: 0.365
+2026-07-07 00:27:57,340 AFC is enabled with max remote calls: 10.
+2026-07-07 00:27:59,649 HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite-preview:generateContent "HTTP/1.1 200 OK"
+2026-07-07 00:27:59,650 AFC remote call 1 is done.
+2026-07-07 00:27:59,650 Warning: there are non-text parts in the response: ['thought_signature'], returning concatenated text result from text parts. Check the full candidates.content.parts accessor to get the full model response.
+2026-07-07 00:27:59,650 Probabilidade: 0.365
+2026-07-07 00:28:04,402 AFC is enabled with max remote calls: 10.
+2026-07-07 00:28:05,882 HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite-preview:generateContent "HTTP/1.1 200 OK"
+2026-07-07 00:28:05,883 AFC remote call 1 is done.
+2026-07-07 00:28:05,884 Warning: there are non-text parts in the response: ['thought_signature'], returning concatenated text result from text parts. Check the full candidates.content.parts accessor to get the full model response.
+2026-07-07 00:28:05,884 Probabilidade: 0.365
