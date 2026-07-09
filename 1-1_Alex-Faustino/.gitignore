@@ -27,3 +27,10 @@ dist/
 build/
 *.egg-info/
 pip-wheel-metadata/
+
+# Ignora pastas de cache do Python
+**/__pycache__/
+
+# Ignora arquivos de log e dados
+*.log
+*.jsonl

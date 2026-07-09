@@ -1,8 +1,16 @@
-              precision    recall  f1-score   support
+Evaluation results
+==================
+n_test: 1409
+ROC AUC: 0.8194
+PR AUC: 0.6082
 
-           0       0.82      0.89      0.85      1035
-           1       0.60      0.47      0.53       374
+Per-class metrics (class 0 = No churn, class 1 = Churn):
+Precision: class0=0.8898, class1=0.5236
+Recall:    class0=0.7565, class1=0.7406
+F1:        class0=0.8178, class1=0.6135
+Support:   class0=1035, class1=374
 
-    accuracy                           0.78      1409
-   macro avg       0.71      0.68      0.69      1409
-weighted avg       0.76      0.78      0.77      1409
+Confusion matrix (rows=true, cols=pred):
+[[783, 252], [97, 277]]
+
+Best threshold (max F1): 0.300 with F1=0.6135
