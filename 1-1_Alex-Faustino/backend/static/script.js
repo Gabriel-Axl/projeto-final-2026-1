@@ -25,6 +25,72 @@ const fields = [
 
 const form=document.getElementById("predictForm");
 
+// auth state
+let accessToken = null;
+let cachedApiKey = null;
+
+document.getElementById("loginBtn").addEventListener("click", async (e)=>{
+    e.preventDefault();
+    await doLogin();
+});
+
+function showMessage(msg){
+    const el = document.getElementById("loginMsg");
+    if(el) el.innerText = msg;
+}
+
+async function doLogin(){
+    const username = document.getElementById("username").value;
+    const password = document.getElementById("password").value;
+
+    try{
+        const res = await fetch('/login',{
+            method: 'POST',
+            headers: {'Content-Type':'application/json'},
+            body: JSON.stringify({username, password})
+        });
+
+        if(!res.ok){
+            const err = await res.json();
+            showMessage(err.detail || 'Login falhou');
+            return;
+        }
+
+        const data = await res.json();
+        accessToken = data.access_token;
+        localStorage.setItem('access_token', accessToken);
+
+        // fetch API key
+        await fetchApiKey();
+
+        // show app
+        document.getElementById('loginArea').style.display = 'none';
+        document.getElementById('appArea').style.display = 'block';
+        showMessage('');
+
+    }catch(err){
+        showMessage('Erro ao conectar: '+err.message);
+    }
+}
+
+async function fetchApiKey(){
+    if(!accessToken) accessToken = localStorage.getItem('access_token');
+    const res = await fetch('/get_api_key',{
+        headers: {'Authorization': 'Bearer '+accessToken }
+    });
+    if(!res.ok) throw new Error('Não autorizado para obter API key');
+    const d = await res.json();
+    cachedApiKey = d.api_key;
+}
+
+function logout(){
+    accessToken = null;
+    cachedApiKey = null;
+    localStorage.removeItem('access_token');
+    document.getElementById('loginArea').style.display = 'block';
+    document.getElementById('appArea').style.display = 'none';
+}
+
 fields.forEach(field=>{
 
     let label=document.createElement("label");
@@ -94,14 +160,19 @@ async function predict(){
 
     });
 
-    const response=await fetch("http://localhost:8000/predict",{
+    // ensure we have API key
+    if(!cachedApiKey){
+        // try to refresh
+        await fetchApiKey();
+    }
+
+    const response=await fetch("/predict",{
 
         method:"POST",
 
         headers:{
-
-            "Content-Type":"application/json"
-
+            "Content-Type":"application/json",
+            "X-API-Key": cachedApiKey
         },
 
         body:JSON.stringify(body)

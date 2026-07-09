@@ -20,13 +20,27 @@
 
     <p>Previsão do risco de cancelamento de clientes e sugestões de ação para retenção.</p>
 
-    <form id="predictForm"></form>
+    <div id="loginArea">
+        <h2>Login</h2>
+        <label>Usuário</label>
+        <input id="username" />
+        <label>Senha</label>
+        <input id="password" type="password" />
+        <button id="loginBtn">Entrar</button>
+        <div id="loginMsg"></div>
+    </div>
 
-    <button onclick="predict()">
-        Analisar Cliente
-    </button>
+    <div id="appArea" style="display:none;">
+        <form id="predictForm"></form>
 
-    <div id="result"></div>
+        <button onclick="predict()">
+            Analisar Cliente
+        </button>
+
+        <button onclick="logout()" style="margin-left:10px;">Sair</button>
+
+        <div id="result"></div>
+    </div>
 
 </div>
 
