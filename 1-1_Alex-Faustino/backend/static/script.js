@@ -198,7 +198,28 @@ async function predict(){
 
     });
 
-        const result=await response.json();
+        // robustly handle non-JSON or error responses
+        const ct = response.headers.get('content-type') || '';
+        if (!response.ok) {
+            // try parse JSON error body
+            if (ct.includes('application/json')) {
+                const err = await response.json().catch(()=>null);
+                const msg = err && err.detail ? err.detail : `HTTP ${response.status}`;
+                throw new Error(msg);
+            } else {
+                const text = await response.text().catch(()=>null);
+                const msg = text ? text : `HTTP ${response.status}`;
+                throw new Error(msg);
+            }
+        }
+
+        let result;
+        if (ct.includes('application/json')) {
+            result = await response.json().catch(e=>{ throw new Error('Resposta inválida do servidor'); });
+        } else {
+            const text = await response.text().catch(()=>null);
+            throw new Error(text || 'Resposta inesperada do servidor');
+        }
 
         document.getElementById("result").innerHTML=`
 

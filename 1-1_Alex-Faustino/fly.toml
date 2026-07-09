@@ -1,0 +1,29 @@
+# fly.toml app configuration file generated for my-churn-app on 2026-07-09T15:21:30-03:00
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
+
+app = 'my-churn-app'
+primary_region = 'gru'
+
+[build]
+[env]
+  # non-secret defaults; override on fly with `flyctl secrets set` for secrets
+  METRICS_PERSIST_PATH = "/data/metrics_history.jsonl"
+  PERSIST_INTERVAL_SECONDS = "1800"
+[http_service]
+  internal_port = 8000
+  force_https = true
+  auto_stop_machines = 'stop'
+  auto_start_machines = true
+  min_machines_running = 0
+  processes = ['app']
+
+[[vm]]
+  memory = '256mb'
+  cpus = 1
+  memory_mb = 256
+
+[[mounts]]
+  source = "metrics_volume"
+  destination = "/data"

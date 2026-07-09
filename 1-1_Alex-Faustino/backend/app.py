@@ -14,6 +14,7 @@ import os
 import jwt
 import datetime
 from typing import Optional
+from fastapi.responses import JSONResponse
 
 SECRET_KEY = os.getenv("SECRET_KEY", "dev-secret")
 
@@ -84,32 +85,42 @@ def predict(customer: Customer, x_api_key: str | None = Header(None)):
         if not x_api_key or x_api_key != expected:
             raise HTTPException(status_code=401, detail="Unauthorized")
 
-    customer_data = customer.model_dump()
-    
-    validate_customer(customer_data)
-
-    prediction = predictor.predict(customer_data)
-
-    # record that a prediction happened
     try:
-        metrics.increment_counter("predictions")
-    except Exception:
-        pass
-    
+        customer_data = customer.model_dump()
 
-    explanation = agent.explain(
-        customer_data,
-        prediction
-    )
-    
-    logging.info(
-        f"Probabilidade: {prediction['probabilidade']}"
-    )
+        validate_customer(customer_data)
 
-    return {
-        **prediction,
-        **explanation
-    }
+        prediction = predictor.predict(customer_data)
+
+        # record that a prediction happened
+        try:
+            metrics.increment_counter("predictions")
+        except Exception:
+            pass
+
+        explanation = agent.explain(
+            customer_data,
+            prediction
+        )
+
+        logging.info(f"Probabilidade: {prediction.get('probabilidade')}")
+
+        return {
+            **prediction,
+            **explanation
+        }
+
+    except HTTPException:
+        # re-raise HTTPExceptions unchanged so FastAPI handles them
+        raise
+    except Exception as e:
+        logging.exception("Erro ao processar /predict: %s", e)
+        try:
+            metrics.increment_counter("prediction_errors")
+        except Exception:
+            pass
+        # return a JSON error response instead of HTML to keep frontend parsing stable
+        raise HTTPException(status_code=500, detail="Erro interno ao processar previsão")
 
 
 
@@ -200,3 +211,14 @@ def _stop_background_tasks():
         persistence.stop_persistence()
     except Exception:
         pass
+
+
+@app.exception_handler(Exception)
+async def generic_exception_handler(request: Request, exc: Exception):
+    """Catch-all exception handler that returns JSON so the frontend can always parse errors."""
+    logging.exception("Unhandled exception: %s", exc)
+    try:
+        metrics.increment_counter("unhandled_errors")
+    except Exception:
+        pass
+    return JSONResponse(status_code=500, content={"detail": "Internal server error"})
