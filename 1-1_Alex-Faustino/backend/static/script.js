@@ -28,6 +28,7 @@ const form=document.getElementById("predictForm");
 // auth state
 let accessToken = null;
 let cachedApiKey = null;
+let isPredicting = false;
 
 document.getElementById("loginBtn").addEventListener("click", async (e)=>{
     e.preventDefault();
@@ -89,6 +90,8 @@ function logout(){
     localStorage.removeItem('access_token');
     document.getElementById('loginArea').style.display = 'block';
     document.getElementById('appArea').style.display = 'none';
+    // reset predict button state
+    try{ setPredictLoading(false); }catch(e){}
 }
 
 fields.forEach(field=>{
@@ -147,8 +150,23 @@ fields.forEach(field=>{
 
 });
 
+const predictBtn = document.getElementById('predictBtn');
+const predictLoadingEl = document.getElementById('predictLoading');
+
+function setPredictLoading(state){
+    isPredicting = state;
+    if(predictBtn) predictBtn.disabled = state;
+    if(predictLoadingEl) predictLoadingEl.style.display = state ? 'block' : 'none';
+    if(predictBtn) predictBtn.innerText = state ? 'Analisando...' : 'Analisar Cliente';
+}
+
+if(predictBtn){
+    predictBtn.addEventListener('click', async (e)=>{ e.preventDefault(); await predict(); });
+}
 
 async function predict(){
+    if(isPredicting) return; // prevent double submissions
+    setPredictLoading(true);
 
     const body={};
 
@@ -166,7 +184,8 @@ async function predict(){
         await fetchApiKey();
     }
 
-    const response=await fetch("/predict",{
+    try{
+        const response=await fetch("/predict",{
 
         method:"POST",
 
@@ -179,9 +198,9 @@ async function predict(){
 
     });
 
-    const result=await response.json();
+        const result=await response.json();
 
-    document.getElementById("result").innerHTML=`
+        document.getElementById("result").innerHTML=`
 
 <h2>Resultado</h2>
 
@@ -194,5 +213,10 @@ async function predict(){
 <p><b>Ação sugerida:</b><br>${result.acao_sugerida}</p>
 
 `;
+    }catch(err){
+        document.getElementById("result").innerHTML = `<p style="color:red">Erro: ${err.message || err}</p>`;
+    }finally{
+        setPredictLoading(false);
+    }
 
 }

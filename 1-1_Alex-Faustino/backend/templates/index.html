@@ -33,9 +33,14 @@
     <div id="appArea" style="display:none;">
         <form id="predictForm"></form>
 
-        <button onclick="predict()">
+        <button id="predictBtn">
             Analisar Cliente
         </button>
+
+        <span id="predictLoading">
+            <span class="spinner" aria-hidden="true"></span>
+            <span class="sr-only">Carregando...</span>
+        </span>
 
         <button onclick="logout()" style="margin-left:10px;">Sair</button>
 

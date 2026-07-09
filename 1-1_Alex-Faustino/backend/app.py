@@ -183,6 +183,17 @@ def _start_background_tasks():
         pass
 
 
+@app.on_event("startup")
+def _log_startup_info():
+    # helpful debug info for container startups (port, env)
+    port = os.getenv("PORT", "8000")
+    logging.info(f"Startup: expected to listen on 0.0.0.0:{port}")
+    try:
+        print(f"Startup: expected to listen on 0.0.0.0:{port}")
+    except Exception:
+        pass
+
+
 @app.on_event("shutdown")
 def _stop_background_tasks():
     try:

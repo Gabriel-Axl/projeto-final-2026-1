@@ -38,13 +38,18 @@ def _sanitize_text(s: str) -> str:
 
 
 class AIAgent:
-
     def explain(self, customer: Dict[str, Any], prediction: Dict[str, Any]) -> Dict[str, str]:
-
+        # Force Portuguese answers, map common categorical values to human-friendly Portuguese,
+        # and ask the model to use Portuguese words (e.g. 'Mês a mês' instead of 'Month-to-month').
         prompt = f"""
-Você é um especialista em retenção de clientes.
+Você é um especialista em retenção de clientes. Responda EM PORTUGUÊS.
 
-Analise os dados abaixo.
+Analise os dados abaixo e gere uma explicação curta (2-4 frases) e uma ação sugerida clara.
+
+Regras:
+- Use termos em português para categorias (ex.: 'Month-to-month' → 'Mês a mês', 'One year' → 'Um ano', 'Two year' → 'Dois anos').
+- Para a classificação de risco, use exatamente 'Alto risco' ou 'Baixo risco'.
+- Seja direto, evite termos em inglês.
 
 Dados do cliente:
 {customer}
@@ -55,13 +60,20 @@ Resultado do modelo:
 Responda SOMENTE em JSON no formato:
 
 {{
-    "explicacao":"...",
-    "acao_sugerida":"..."
+    "explicacao":"...",        # texto em Português explicando o raciocínio
+    "acao_sugerida":"..."     # ação operacional curta em Português
 }}
+
+Exemplo de saída válida (em Português):
+{{
+    "explicacao": "O cliente é novo (tenure 0) e tem cobrança zero, indicando possível falha de ativação ou período de teste. Apesar de classificado como Baixo risco, a falta de histórico e o contrato Mês a mês aumentam a incerteza.",
+    "acao_sugerida": "Verificar provisionamento e contatar o cliente para confirmar ativação; oferecer desconto para contrato de 12 meses."
+}}
+
+Gere apenas o JSON, sem comentários adicionais.
 """
 
         try:
-
             response = client.models.generate_content(
                 model=MODEL_NAME,
                 contents=prompt,
@@ -108,9 +120,7 @@ Responda SOMENTE em JSON no formato:
                 except Exception:
                     pass
                 raise
-
         except Exception as e:
-
             logging.error("Erro ao gerar/validar resposta do agente: %s", e)
 
             # increment fallback counter
