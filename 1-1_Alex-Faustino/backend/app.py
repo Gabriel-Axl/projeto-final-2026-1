@@ -5,6 +5,7 @@ from services.predictor import ChurnPredictor
 from services.ai_agent import AIAgent
 from services.validators import validate_customer
 from services import metrics
+from services import persistence
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
@@ -102,3 +103,21 @@ def predict(customer: Customer):
 def metrics_endpoint():
     """Retorna métricas de observabilidade do serviço."""
     return metrics.get_metrics()
+
+
+
+@app.on_event("startup")
+def _start_background_tasks():
+    # start persistence worker to save metrics periodically
+    try:
+        persistence.start_persistence()
+    except Exception:
+        pass
+
+
+@app.on_event("shutdown")
+def _stop_background_tasks():
+    try:
+        persistence.stop_persistence()
+    except Exception:
+        pass

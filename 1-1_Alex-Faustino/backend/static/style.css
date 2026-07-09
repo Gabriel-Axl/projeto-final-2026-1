@@ -34,6 +34,13 @@ label{
 
 }
 
+.field-desc{
+    font-size:0.9em;
+    color:#666;
+    margin-top:4px;
+    margin-bottom:6px;
+}
+
 input,select{
 
     width:100%;
