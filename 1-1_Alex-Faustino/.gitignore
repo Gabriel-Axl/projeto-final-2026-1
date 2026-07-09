@@ -1,2 +1,29 @@
 .venv/
+venv/
+env/
+ENV/
 .env
+
+# Python bytecode
+__pycache__/
+*.py[cod]
+
+# pytest cache
+.pytest_cache/
+
+# mypy
+.mypy_cache/
+
+# virtualenvs
+env.bak/
+venv.bak/
+
+# IDEs and editors
+.vscode/
+.idea/
+
+# Distribution / packaging
+dist/
+build/
+*.egg-info/
+pip-wheel-metadata/

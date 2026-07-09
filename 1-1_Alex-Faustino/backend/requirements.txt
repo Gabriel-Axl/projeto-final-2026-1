@@ -33,3 +33,4 @@ python-dotenv==1.1.1
 uvicorn==0.50.2
 jinja2
 matplotlib
+pytest==7.4.2

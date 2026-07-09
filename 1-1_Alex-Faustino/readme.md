@@ -21,8 +21,8 @@ Swagger:
 
 http://localhost:8000/docs
 
-
 exemplo de alto risco
+
 {
   "gender": "Female",
   "SeniorCitizen": 1,

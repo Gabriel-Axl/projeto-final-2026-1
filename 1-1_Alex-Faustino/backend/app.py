@@ -4,6 +4,7 @@ from schemas import Customer
 from services.predictor import ChurnPredictor
 from services.ai_agent import AIAgent
 from services.validators import validate_customer
+from services import metrics
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
@@ -34,6 +35,26 @@ app.add_middleware(
 predictor = ChurnPredictor()
 agent = AIAgent()
 
+
+@app.middleware("http")
+async def add_process_time_header(request: Request, call_next):
+    import time
+
+    start = time.time()
+    response = await call_next(request)
+    duration = time.time() - start
+
+    # record latency per path
+    path = request.url.path
+    try:
+        metrics.record_latency(path, duration)
+    except Exception:
+        pass
+
+    # attach header for debugging
+    response.headers["X-Process-Time"] = str(round(duration, 4))
+    return response
+
 @app.get("/health")
 def health():
     return {"status": "healthy"}
@@ -54,6 +75,12 @@ def predict(customer: Customer):
     validate_customer(customer_data)
 
     prediction = predictor.predict(customer_data)
+
+    # record that a prediction happened
+    try:
+        metrics.increment_counter("predictions")
+    except Exception:
+        pass
     
 
     explanation = agent.explain(
@@ -69,3 +96,9 @@ def predict(customer: Customer):
         **prediction,
         **explanation
     }
+
+
+@app.get("/metrics")
+def metrics_endpoint():
+    """Retorna métricas de observabilidade do serviço."""
+    return metrics.get_metrics()
