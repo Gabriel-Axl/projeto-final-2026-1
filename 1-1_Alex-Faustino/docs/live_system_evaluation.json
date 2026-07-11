@@ -1,0 +1,346 @@
+{
+  "metadata": {
+    "base_url": "https://my-churn-app.fly.dev",
+    "started_at": "2026-07-11T15:45:38.730553-03:00",
+    "finished_at": "2026-07-11T15:45:55.914559-03:00",
+    "username": "Mladmin",
+    "test_counts": {
+      "valid": 3,
+      "invalid": 5
+    }
+  },
+  "setup": {
+    "login_latency_sec": 0.1569,
+    "api_key_latency_sec": 0.1475
+  },
+  "results": {
+    "valid": [
+      {
+        "label": "Cliente novo em contrato mensal",
+        "status": 200,
+        "duration_sec": 13.4805,
+        "response": {
+          "probabilidade": 0.895,
+          "classificacao": "Alto risco",
+          "explicacao": "O cliente apresenta alto risco devido ao contrato 'Mês a mês', ausência de serviços de segurança digital e um tempo de permanência de apenas um mês. O uso de internet via fibra óptica com cobrança mensal elevada, somado ao método de pagamento via cheque eletrônico, indica uma forte propensão ao cancelamento imediato.",
+          "acao_sugerida": "Entrar em contato imediatamente para oferecer um pacote de fidelidade com desconto, incluir serviços de segurança digital como cortesia e incentivar a migração para um contrato de 'Um ano'."
+        }
+      },
+      {
+        "label": "Cliente antigo com contrato anual",
+        "status": 200,
+        "duration_sec": 1.155,
+        "response": {
+          "probabilidade": 0.03,
+          "classificacao": "Baixo risco",
+          "explicacao": "O cliente possui um longo tempo de casa (48 meses), utiliza serviços essenciais com segurança digital e possui um contrato de 'Um ano', o que demonstra alta fidelidade. A baixa probabilidade de cancelamento reflete um perfil estável e satisfeito com o pacote atual.",
+          "acao_sugerida": "Manter o relacionamento atual e oferecer um upgrade nos serviços de streaming para aumentar o valor do contrato no próximo ciclo de renovação."
+        }
+      },
+      {
+        "label": "Cliente com Internet fibra e pagamentos eletrônicos",
+        "status": 200,
+        "duration_sec": 1.1822,
+        "response": {
+          "probabilidade": 0.865,
+          "classificacao": "Alto risco",
+          "explicacao": "A cliente apresenta Alto risco devido ao contrato Mês a mês, falta de serviços de segurança digital e uso de fibra óptica com alto custo mensal. O perfil de idosa sem dependentes e o método de pagamento via cheque eletrônico também contribuem para a instabilidade na retenção.",
+          "acao_sugerida": "Oferecer um pacote de fidelidade com desconto para migração para contrato de Um ano, incluindo suporte técnico e segurança online como benefícios agregados para aumentar o valor percebido."
+        }
+      }
+    ],
+    "invalid": [
+      {
+        "label": "Tenure negativo",
+        "status": 400,
+        "duration_sec": 0.1373,
+        "response": {
+          "detail": "Tenure não pode ser negativo."
+        }
+      },
+      {
+        "label": "Gênero inválido",
+        "status": 400,
+        "duration_sec": 0.1502,
+        "response": {
+          "detail": "Gender inválido."
+        }
+      },
+      {
+        "label": "Contrato inválido",
+        "status": 400,
+        "duration_sec": 0.1436,
+        "response": {
+          "detail": "Tipo de contrato inválido."
+        }
+      },
+      {
+        "label": "MonthlyCharges negativo",
+        "status": 400,
+        "duration_sec": 0.1455,
+        "response": {
+          "detail": "MonthlyCharges inválido."
+        }
+      },
+      {
+        "label": "Campo obrigatório ausente",
+        "status": 422,
+        "duration_sec": 0.152,
+        "response": {
+          "detail": [
+            {
+              "type": "missing",
+              "loc": [
+                "body",
+                "TotalCharges"
+              ],
+              "msg": "Field required",
+              "input": {
+                "gender": "Male",
+                "SeniorCitizen": 0,
+                "Partner": "Yes",
+                "Dependents": "No",
+                "tenure": 9,
+                "PhoneService": "Yes",
+                "MultipleLines": "Yes",
+                "InternetService": "Fiber optic",
+                "OnlineSecurity": "No",
+                "OnlineBackup": "Yes",
+                "DeviceProtection": "No",
+                "TechSupport": "No",
+                "StreamingTV": "Yes",
+                "StreamingMovies": "Yes",
+                "Contract": "Month-to-month",
+                "PaperlessBilling": "Yes",
+                "PaymentMethod": "Credit card (automatic)",
+                "MonthlyCharges": 99.0
+              }
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "metrics": {
+    "before": {
+      "counters": {
+        "llm_calls": 0,
+        "llm_fallbacks": 0,
+        "predictions": 0
+      },
+      "estimated_total_cost": 0.0,
+      "latency": {
+        "/": {
+          "count": 1,
+          "avg_sec": 0.0057337284088134766,
+          "total_sec": 0.0057337284088134766
+        },
+        "/static/script.js": {
+          "count": 1,
+          "avg_sec": 0.0027036666870117188,
+          "total_sec": 0.0027036666870117188
+        },
+        "/static/style.css": {
+          "count": 1,
+          "avg_sec": 0.0036644935607910156,
+          "total_sec": 0.0036644935607910156
+        },
+        "/favicon.ico": {
+          "count": 1,
+          "avg_sec": 0.00030517578125,
+          "total_sec": 0.00030517578125
+        },
+        "/health": {
+          "count": 1,
+          "avg_sec": 0.002279520034790039,
+          "total_sec": 0.002279520034790039
+        },
+        "/metrics": {
+          "count": 1,
+          "avg_sec": 0.0009918212890625,
+          "total_sec": 0.0009918212890625
+        }
+      },
+      "timestamp": "2026-07-11T18:44:10.306633+00:00",
+      "uptime_seconds": 253.67,
+      "uptime": "4m 13s"
+    },
+    "after": {
+      "counters": {
+        "llm_calls": 3,
+        "llm_fallbacks": 0,
+        "predictions": 3
+      },
+      "estimated_total_cost": 0.03,
+      "latency": {
+        "/": {
+          "count": 1,
+          "avg_sec": 0.0057337284088134766,
+          "total_sec": 0.0057337284088134766
+        },
+        "/static/script.js": {
+          "count": 1,
+          "avg_sec": 0.0027036666870117188,
+          "total_sec": 0.0027036666870117188
+        },
+        "/static/style.css": {
+          "count": 1,
+          "avg_sec": 0.0036644935607910156,
+          "total_sec": 0.0036644935607910156
+        },
+        "/favicon.ico": {
+          "count": 1,
+          "avg_sec": 0.00030517578125,
+          "total_sec": 0.00030517578125
+        },
+        "/health": {
+          "count": 1,
+          "avg_sec": 0.002279520034790039,
+          "total_sec": 0.002279520034790039
+        },
+        "/metrics": {
+          "count": 2,
+          "avg_sec": 0.0017181634902954102,
+          "total_sec": 0.0034363269805908203
+        },
+        "/login": {
+          "count": 1,
+          "avg_sec": 0.0032079219818115234,
+          "total_sec": 0.0032079219818115234
+        },
+        "/get_api_key": {
+          "count": 1,
+          "avg_sec": 0.001756429672241211,
+          "total_sec": 0.001756429672241211
+        },
+        "/predict": {
+          "count": 8,
+          "avg_sec": 1.923104852437973,
+          "total_sec": 15.384838819503784
+        }
+      },
+      "timestamp": "2026-07-11T18:44:27.321877+00:00",
+      "uptime_seconds": 270.69,
+      "uptime": "4m 30s"
+    },
+    "delta": {
+      "counters": {
+        "llm_calls": 3,
+        "llm_fallbacks": 0,
+        "predictions": 3
+      },
+      "before": {
+        "counters": {
+          "llm_calls": 0,
+          "llm_fallbacks": 0,
+          "predictions": 0
+        },
+        "estimated_total_cost": 0.0,
+        "latency": {
+          "/": {
+            "count": 1,
+            "avg_sec": 0.0057337284088134766,
+            "total_sec": 0.0057337284088134766
+          },
+          "/static/script.js": {
+            "count": 1,
+            "avg_sec": 0.0027036666870117188,
+            "total_sec": 0.0027036666870117188
+          },
+          "/static/style.css": {
+            "count": 1,
+            "avg_sec": 0.0036644935607910156,
+            "total_sec": 0.0036644935607910156
+          },
+          "/favicon.ico": {
+            "count": 1,
+            "avg_sec": 0.00030517578125,
+            "total_sec": 0.00030517578125
+          },
+          "/health": {
+            "count": 1,
+            "avg_sec": 0.002279520034790039,
+            "total_sec": 0.002279520034790039
+          },
+          "/metrics": {
+            "count": 1,
+            "avg_sec": 0.0009918212890625,
+            "total_sec": 0.0009918212890625
+          }
+        },
+        "timestamp": "2026-07-11T18:44:10.306633+00:00",
+        "uptime_seconds": 253.67,
+        "uptime": "4m 13s"
+      },
+      "after": {
+        "counters": {
+          "llm_calls": 3,
+          "llm_fallbacks": 0,
+          "predictions": 3
+        },
+        "estimated_total_cost": 0.03,
+        "latency": {
+          "/": {
+            "count": 1,
+            "avg_sec": 0.0057337284088134766,
+            "total_sec": 0.0057337284088134766
+          },
+          "/static/script.js": {
+            "count": 1,
+            "avg_sec": 0.0027036666870117188,
+            "total_sec": 0.0027036666870117188
+          },
+          "/static/style.css": {
+            "count": 1,
+            "avg_sec": 0.0036644935607910156,
+            "total_sec": 0.0036644935607910156
+          },
+          "/favicon.ico": {
+            "count": 1,
+            "avg_sec": 0.00030517578125,
+            "total_sec": 0.00030517578125
+          },
+          "/health": {
+            "count": 1,
+            "avg_sec": 0.002279520034790039,
+            "total_sec": 0.002279520034790039
+          },
+          "/metrics": {
+            "count": 2,
+            "avg_sec": 0.0017181634902954102,
+            "total_sec": 0.0034363269805908203
+          },
+          "/login": {
+            "count": 1,
+            "avg_sec": 0.0032079219818115234,
+            "total_sec": 0.0032079219818115234
+          },
+          "/get_api_key": {
+            "count": 1,
+            "avg_sec": 0.001756429672241211,
+            "total_sec": 0.001756429672241211
+          },
+          "/predict": {
+            "count": 8,
+            "avg_sec": 1.923104852437973,
+            "total_sec": 15.384838819503784
+          }
+        },
+        "timestamp": "2026-07-11T18:44:27.321877+00:00",
+        "uptime_seconds": 270.69,
+        "uptime": "4m 30s"
+      }
+    }
+  },
+  "summary": {
+    "valid_success_rate": 1.0,
+    "invalid_rejection_rate": 1.0,
+    "avg_predict_latency_sec": 5.2726,
+    "median_predict_latency_sec": 1.1822,
+    "p95_predict_latency_sec": 12.2507,
+    "max_predict_latency_sec": 13.4805,
+    "fallback_rate": 0.0,
+    "llm_calls": 3,
+    "llm_fallbacks": 0
+  }
+}
